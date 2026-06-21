@@ -15,6 +15,7 @@ StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 
 [compat]
 Aqua = "0.8"
+ExplicitImports = "1.15"
 LinearAlgebra = "1"
 NonNegLeastSquares = "0.2.0, 0.3.0, 0.4.0"
 PrecompileTools = "1"
@@ -28,7 +29,8 @@ julia = "1.6"
 
 [extras]
 Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
+ExplicitImports = "7d51a73a-1435-4ff3-83d9-f097790105c7"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Aqua", "Test"]
+test = ["Aqua", "ExplicitImports", "Test"]

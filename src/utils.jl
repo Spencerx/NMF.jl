@@ -1,8 +1,5 @@
 # Numerical utilities to support implementation
 
-using LinearAlgebra.BLAS: nrm2
-using LinearAlgebra.LAPACK: potrf!, potri!, potrs!
-
 function printf_mat(x::AbstractMatrix)
     @inbounds for i = 1:size(x,1)
         for j = 1:size(x,2)
@@ -60,26 +57,20 @@ function posneg!(A::AbstractArray{T},
     end
 end
 
-function pdsolve!(A, x, uplo::Char='U')
+function pdsolve!(A, x, uplo::Symbol=:U)
     # A must be positive definite
     # x <- inv(A) * x
-    # both A and x will be overriden
+    # A is overwritten by its Cholesky factor, x by the solution
 
-    potrf!(uplo, A)
-    potrs!(uplo, A, x)
+    ldiv!(cholesky!(Hermitian(A, uplo)), x)
 end
 
-function pdrsolve!(A, B, x, uplo::Char='U')
+function pdrsolve!(A, B, x, uplo::Symbol=:U)
     # B must be positive definite
     # x <- A * inv(B)
-    # both B and x will be overriden
+    # B is overwritten by its Cholesky factor, x by the result
 
-    # inverse B in place
-    potrf!(uplo, B)
-    potri!(uplo, B)
-    copytri!(B, uplo)
-
-    # x <- A * B (the inversed one)
-    mul!(x, A, B)
+    Binv = inv(cholesky!(Hermitian(B, uplo)))
+    mul!(x, A, Binv)
 end
 

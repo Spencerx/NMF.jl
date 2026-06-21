@@ -12,9 +12,6 @@
 #  negative entries back to zeros.
 #
 
-using LinearAlgebra: copytri!
-using LinearAlgebra.LAPACK: potrs!, potrf!, potri!
-
 mutable struct ProjectedALS{T}
     maxiter::Int            # maximum number of iterations (in main procedure)
     verbose::Bool           # whether to show procedural information
