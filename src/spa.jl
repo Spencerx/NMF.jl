@@ -15,7 +15,7 @@ struct SPA <: AbstractNMFAlgorithm
 end
 
 # initialization
-function spa(X::Matrix{T}, k::Integer; nnls_alg::Tuple{Symbol, Symbol}=(:pivot, :cache)) where T
+function spa(X::AbstractMatrix{T}, k::Integer; nnls_alg::Tuple{Symbol, Symbol}=(:pivot, :cache)) where T
 
     # Normalize data so that columns of X sum to one
     R = X ./ sum(X, dims=1)

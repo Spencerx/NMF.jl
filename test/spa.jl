@@ -40,6 +40,18 @@
         @test ret isa NMF.Result{T}
         @test ret.converged
     end
+    # Accepts any AbstractMatrix, not just a dense Matrix (e.g. a view).
+    let T = Float64
+        Wg, Hg = separable_data(p, n, k)
+        Xfull = T.(Wg * Hg)
+        Xpad = hcat(Xfull, ones(T, p))
+        Xview = view(Xpad, :, 1:n)
+        @test Xview isa SubArray
+        w, h = NMF.spa(Xview, k)
+        wf, hf = NMF.spa(Xfull, k)
+        @test w == wf
+        @test h == hf
+    end
     @test_throws ArgumentError NMF.SPA(obj=:nonsense)
 end
 
