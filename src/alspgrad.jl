@@ -147,9 +147,9 @@ function _alspgrad_updateh!(X,                      # size (p, n)
                 end
 
                 # compute criterion
-                dv1 = BLAS.dot(G, D)  # <G, D>
+                dv1 = dot(G, D)  # <G, D>
                 mul!(WtWD, WtW, D)
-                dv2 = BLAS.dot(WtWD, D)  # <D, WtW * D>
+                dv2 = dot(WtWD, D)  # <D, WtW * D>
 
                 # back-track
                 suff_decr = ((1 - σ) * dv1 + convert(T, 0.5) * dv2) < 0
@@ -303,9 +303,9 @@ function _alspgrad_updatew!(X,                      # size (p, n)
                 end
 
                 # compute criterion
-                dv1 = BLAS.dot(G, D)  # <G, D>
+                dv1 = dot(G, D)  # <G, D>
                 mul!(DHHt, D, HHt)
-                dv2 = BLAS.dot(DHHt, D)  # <D * HHt, D>
+                dv2 = dot(DHHt, D)  # <D * HHt, D>
 
                 # back-track
                 suff_decr = ((1 - σ) * dv1 + convert(T, 0.5) * dv2) < 0

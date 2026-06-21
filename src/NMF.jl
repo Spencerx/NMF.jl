@@ -1,11 +1,11 @@
 module NMF
-    using StatsBase
-    using Statistics
-    using Printf
-    using LinearAlgebra
-    using NonNegLeastSquares
-    using Random
-    using RandomizedLinAlg
+    using StatsBase: gkldiv, sqL2dist
+    using Statistics: mean
+    using Printf: @printf
+    using LinearAlgebra: Hermitian, cholesky!, diagind, dot, I, ldiv!, mul!, norm, rmul!
+    using NonNegLeastSquares: nonneg_lsq
+    using Random: randperm, shuffle
+    using RandomizedLinAlg: rsvd
 
     export nnmf
 
@@ -22,7 +22,7 @@ module NMF
 
     include("interf.jl")
 
-    using PrecompileTools
+    using PrecompileTools: @compile_workload, @setup_workload
 
     let
         @setup_workload begin
