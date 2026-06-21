@@ -4,6 +4,7 @@ A Julia package for non-negative matrix factorization (NMF).
 
 [![CI](https://github.com/JuliaStats/NMF.jl/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/JuliaStats/NMF.jl/actions/workflows/ci.yml)
 [![CodeCov](https://codecov.io/github/JuliaStats/NMF.jl/badge.svg?branch=master)](https://codecov.io/github/JuliaStats/NMF.jl?branch=master)
+[![Aqua QA](https://juliatesting.github.io/Aqua.jl/dev/assets/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 
 ---------------------------
 
