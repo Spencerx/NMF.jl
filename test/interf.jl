@@ -1,12 +1,10 @@
 @testset "interf" begin
-    p = 5
-    n = 8
-    k = 3
+    Xg, Wg0, Hg0 = separable6x3()
+    p, k = size(Wg0)
+    n = size(Hg0, 2)
 
     for T in (Float64, Float32)
-        Wg = max.(rand(T, p, k) .- T(0.3), zero(T))
-        Hg = max.(rand(T, k, n) .- T(0.3), zero(T))
-        X = Wg * Hg
+        X = T.(Xg)
 
         for alg in (:multmse, :multdiv, :projals, :alspgrad, :cd, :greedycd)
             for init in (:random, :nndsvd, :nndsvda, :nndsvdar, :spa)
@@ -27,9 +25,10 @@
         # spa test
         ret = NMF.nnmf(X, k, alg=:spa, init=:spa)
 
-        # update_H test
-        W = max.(rand(T, p, k) .- T(0.3), zero(T))
-        H = max.(rand(T, k, n) .- T(0.3), zero(T))
+        # update_H test: with update_H=false, H is held fixed and only W moves,
+        # so start from a deliberately non-optimal W.
+        W = fill(T(1), p, k)
+        H = T.(Hg0)
         for alg in (:multmse, :multdiv, :projals, :alspgrad, :cd, :greedycd)
             ret = NMF.nnmf(X, k, alg=alg, init=:custom, W0=copy(W), H0=copy(H), update_H=false)
             @test all(H .== ret.H)

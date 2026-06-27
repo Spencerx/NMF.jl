@@ -12,6 +12,26 @@ function laurberg6x3(α)
     return X, Matrix(W), H
 end
 
+# An explicit, well-conditioned separable problem of nonnegative rank 3.
+# The first three columns of H form an identity block, so X[:, 1:3] == W
+# exactly; SPA must recover those columns, and the remaining columns are
+# strictly interior convex combinations. Deterministic, so tests built on it
+# do not depend on the RNG stream (which is not stable across Julia versions).
+function separable6x3()
+    W = [1 0 0
+         0 1 0
+         0 0 1
+         2 1 0
+         0 1 2
+         1 0 1]
+    V = [5 2 1
+         3 5 4
+         2 3 5] .// 10        # columns sum to 1
+    H = [Matrix(1//1 * I, 3, 3) V]
+    X = W * H
+    return float.(X), float.(W), float.(H)
+end
+
 # Generate an (m × n) matrix X = W*H of nonnegative, separable data with
 # nonnegative rank k. The columns of H can be permuted to expose a (k × k)
 # identity block, so the (scaled) columns of W appear directly among the columns
